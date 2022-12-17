@@ -1,0 +1,1 @@
+Change reading interval by changing the `INTERVALTIME` constant

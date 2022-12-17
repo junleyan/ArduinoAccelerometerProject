@@ -4,8 +4,7 @@ import csv
 
 header = ['interval', 'hour', 'minute', 'second', 
         'acX', 'acY', 'acX', 
-        'gyX', 'gyY', 'gyZ',
-        'denoisedAcX', 'denoisedAcY', 'denoisedAcZ']
+        'gyX', 'gyY', 'gyZ']
 
 
 if __name__ == "__main__":
@@ -19,11 +18,7 @@ if __name__ == "__main__":
         with open(file) as r:
             content = r.readlines()
         for i in range(len(content)):
-            tmp = content[i].replace('\n', '').split(',')
-            tmp.append(int(tmp[4])-1884)
-            tmp.append(int(tmp[5])+5760)
-            tmp.append(int(tmp[6])-10620)
-            content[i] = tmp
+            content[i] = content[i].replace('\n', '').split(',')
 
         with open(file.replace('.TXT', '.csv'), 'w', encoding='UTF8', newline='') as f:
             writer = csv.writer(f)
