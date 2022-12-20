@@ -5,18 +5,17 @@
 #include <SoftwareSerial.h>
 
 // set the interval of gathering sensor values
-const int INTERVALTIME = 5;
+const int INTERVALTIME = 5; 
 // set the filename of logger text file
 const String FILENAME = "datalog";
 
-const int chipSelect = 10;
+const int chipSelect = 10; // address of sd card slot
 const int MPU_addr = 0x68; // I2C address of the MPU-6050
-int16_t AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ;
+int16_t AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ; // declaring variable to store data
 
-long artificalTime = 0;
 
-RTC_DS1307 rtc;
-SoftwareSerial BTserial(2, 3);
+RTC_DS1307 rtc; // creating an instance of rtc module
+SoftwareSerial BTserial(2, 3); // open bluetooth serial communication
 
 void setup() {
   // Open serial communications and wait for port to open:
@@ -59,6 +58,8 @@ void setup() {
 }
 
 void loop() {
+  
+  // read time from rtc module (isn't accurate)
   DateTime now = rtc.now();
   DateTime future (now + TimeSpan(7,12,30,6));
   delay(INTERVALTIME);
@@ -90,6 +91,7 @@ void loop() {
   t = Wire.read();
 
   // add data to a variable to be stored on SD card
+  // add time
   dataString += INTERVALTIME;
   dataString += ",";
   dataString += future.hour();
@@ -99,6 +101,7 @@ void loop() {
   dataString += future.second();
   dataString += ",";
 
+  // add linear accelerations
   dataString += AcX;
   dataString += ",";
   BTserial.println(AcX);
@@ -110,13 +113,22 @@ void loop() {
   dataString += AcZ;
   dataString += ",";
   BTserial.println(AcZ);
-
+  
+  // add angular acceleration
   dataString += GyX;
   dataString += ",";
   dataString += GyY;
   dataString += ",";
   dataString += GyZ;
-
+  
+  // FURTHER CALCULATIONS TO BE WRITTEN HERE 
+  // CALCULATE VARIABLES AND STORE TO dataString WITH A COMMA
+  // INITIALIZE VARIABLES BEFORE THE SETUP FUNCTION 
+  //
+  //
+  // 
+  //
+  //
 
 
   // open the file. note that only one file can be open at a time,
